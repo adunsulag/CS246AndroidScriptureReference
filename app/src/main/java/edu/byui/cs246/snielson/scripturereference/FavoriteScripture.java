@@ -1,10 +1,12 @@
 package edu.byui.cs246.snielson.scripturereference;
 
+import java.io.Serializable;
+
 /**
- * Represents a user's favorite scripture (book, chapter, and verse).  Uses the Singleton pattern.
+ * Represents a user's favorite scripture (book, chapter, and verse).
  * @author Stephen Nielson
  */
-public class FavoriteScripture {
+public class FavoriteScripture implements Serializable {
 
   /**
    * Singleton instance of the FavoriteScripture.
@@ -29,19 +31,7 @@ public class FavoriteScripture {
   /**
    * Only this class can instantiate itself.
    */
-  private FavoriteScripture() {}
-
-  /**
-   * Returns the instance of FavoriteScripture.  Returns the same reference every time as there
-   * can only be one instance.
-   * @return The instantiated FavoriteScripture
-   */
-  public static FavoriteScripture getInstance() {
-    if (instance == null) {
-      instance = new FavoriteScripture();
-    }
-    return instance;
-  }
+  public FavoriteScripture() {}
 
   public String getChapter() {
     return chapter;

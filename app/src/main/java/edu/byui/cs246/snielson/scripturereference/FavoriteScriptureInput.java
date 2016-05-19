@@ -12,6 +12,9 @@ import android.widget.EditText;
  */
 public class FavoriteScriptureInput extends AppCompatActivity {
 
+  public static final String MESSAGE_SCRIPTURE =
+      "edu.byui.cs246.snielson.scripturereference.Scripture";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -23,13 +26,9 @@ public class FavoriteScriptureInput extends AppCompatActivity {
    * @param view The view button that was clicked on.
    */
   public void shareFavoriteScripture(View view) {
-    saveScriptureText();
-    Intent intent = new Intent(this, FavoriteScriptureDisplay.class);
 
-    // so one way of passing the data is through a singleton...
-    // the other way would be through the intent data messaging system.
-    // seen here: https://developer.android.com/training/basics/firstapp/starting-activity.html
-    // singleton was easy enough and works.
+    Intent intent = new Intent(this, FavoriteScriptureDisplay.class);
+    storeScriptureText(intent);
     startActivity(intent);
   }
 
@@ -37,7 +36,7 @@ public class FavoriteScriptureInput extends AppCompatActivity {
    * Retrieves all of the scripture text from current activity and saves their information into the
    * FavoriteScripture object.
    */
-  private void saveScriptureText() {
+  private void storeScriptureText(Intent intent) {
     EditText book = (EditText) findViewById(R.id.book);
     EditText chapter = (EditText) findViewById(R.id.chapter);
     EditText verse = (EditText) findViewById(R.id.verse);
@@ -45,9 +44,11 @@ public class FavoriteScriptureInput extends AppCompatActivity {
       throw new RuntimeException("book, chapter, or verse widget not found.  "
           + "Cannot retrieve values");
     }
-    FavoriteScripture scripture = FavoriteScripture.getInstance();
+
+    FavoriteScripture scripture = new FavoriteScripture();
     scripture.setBook(book.getText().toString());
     scripture.setChapter(chapter.getText().toString());
     scripture.setVerse(verse.getText().toString());
+    intent.putExtra(MESSAGE_SCRIPTURE, scripture);
   }
 }
